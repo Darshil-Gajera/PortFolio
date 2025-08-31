@@ -1,26 +1,19 @@
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
-
-<script>
-// ===================== THEME TOGGLER =====================
-function setTheme(theme) {
+// Function to set the theme and update UI
+ function setTheme(theme) {
     document.body.setAttribute('data-bs-theme', theme);
     localStorage.setItem('theme', theme);
-
-    const switchThemeBtn = document.getElementById('switchTheme');
+    var switchThemeBtn = document.getElementById('switchTheme');
     if (switchThemeBtn) {
-        switchThemeBtn.innerHTML = theme === 'dark' 
-            ? '<i class="bi bi-sun-fill"></i>' 
-            : '<i class="bi bi-moon-stars-fill"></i>';
+        switchThemeBtn.innerHTML = theme === 'dark' ?  '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-stars-fill"></i>';
     }
+    //console.log(`Switched to ${theme} theme`);
 }
 
-// Load saved theme or default to dark
-let currentTheme = localStorage.getItem('theme') || 'dark';
+var currentTheme = localStorage.getItem('theme') || 'dark';
 setTheme(currentTheme);
 
-// Event listener for theme switcher
-const switchThemeBtn = document.getElementById('switchTheme');
+// Event listener for the switch theme button
+var switchThemeBtn = document.getElementById('switchTheme');
 if (switchThemeBtn) {
     switchThemeBtn.addEventListener('click', () => {
         currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -28,76 +21,120 @@ if (switchThemeBtn) {
     });
 }
 
-// ===================== AOS INIT =====================
+//AOS Initiliaze
 AOS.init();
 
-// ===================== FIXED HEADER & BACK TO TOP =====================
+// Fixed Header & back to top button on Scroll
 window.addEventListener('scroll', () => {
+    // fixed header
     const header = document.getElementById('header');
-    const backToTopButton = document.getElementById("backToTopButton");
-
-    if (window.scrollY > 30) {
+    if (window.scrollY > 30 && !header.classList.contains('fixed-top')) {
         header.classList.add('fixed-top');
         document.getElementById('offcanvasNavbar').classList.add('fixedHeaderNavbar');
-    } else {
+    } else if (window.scrollY <= 30 && header.classList.contains('fixed-top')) {
         header.classList.remove('fixed-top');
         document.getElementById('offcanvasNavbar').classList.remove('fixedHeaderNavbar');
     }
 
-    if (window.scrollY > 400) {
+    //backtotop
+    const backToTopButton = document.getElementById("backToTopButton");
+    if (window.scrollY > 400 && backToTopButton.style.display === 'none') {
         backToTopButton.style.display = 'block';
-    } else {
+    } else if (window.scrollY <= 400 && backToTopButton.style.display === 'block') {
         backToTopButton.style.display = 'none';
     }
 });
 
-// Back to top function
+
+//jumping to top function
 function scrollToTop(){
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
 
-// ===================== TESTIMONIAL SLIDER (Owl Carousel) =====================
+//Testimonial Slider
 $(document).ready(function(){
     $("#testimonial-slider").owlCarousel({
         items:3,
         nav:true,
-        loop:true,
-        autoplay:true,
-        autoplayTimeout:3000,
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
         responsive:{
-            0:{ items:1 },
-            768:{ items:2 },
-            1170:{ items:3 }
+            0:{
+                items:1,
+            },
+            768:{
+                items:2,
+            },
+            1170:{
+                items:3,
+            }
         }
     });
 });
-</script>
 
-<!-- Swiper JS -->
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-// ===================== PROJECT SLIDER (Swiper.js) =====================
-var swiper = new Swiper(".myProjects", {
-    slidesPerView: 3,
-    spaceBetween: 30,
-    loop: true,
-    autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-    },
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-    },
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    breakpoints: {
-        0: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 }
-    }
+
+// Project cards cycling animation
+function cycleProjects() {
+    const projectCards = document.querySelectorAll('.project-card');
+    const projectContainer = document.querySelector('#projects .row');
+    let currentIndex = 0;
+
+    setInterval(() => {
+        // Get current and next card
+        const currentCard = projectCards[currentIndex];
+        currentIndex = (currentIndex + 1) % projectCards.length;
+        const nextCard = projectCards[currentIndex];
+
+        // Animate current card out
+        currentCard.classList.add('sliding-out');
+        
+        setTimeout(() => {
+            // Move current card to end
+            projectContainer.appendChild(currentCard);
+            currentCard.classList.remove('sliding-out');
+            
+            // Animate next card in
+            nextCard.classList.add('sliding-in');
+            setTimeout(() => {
+                nextCard.classList.remove('sliding-in');
+            }, 500);
+        }, 500);
+    }, 3000); // Change cards every 3 seconds
+}
+
+// Add this function to cycle testimonials
+function cycleTestimonials() {
+    const testimonials = document.querySelectorAll('.testimonial');
+    const testimonialContainer = document.querySelector('#testimonial-slider');
+    let currentIndex = 0;
+
+    setInterval(() => {
+        // Get current and next testimonial
+        const currentTestimonial = testimonials[currentIndex];
+        currentIndex = (currentIndex + 1) % testimonials.length;
+        const nextTestimonial = testimonials[currentIndex];
+
+        // Animate current testimonial out
+        currentTestimonial.classList.add('sliding-out');
+        
+        setTimeout(() => {
+            // Move current testimonial to end
+            testimonialContainer.appendChild(currentTestimonial);
+            currentTestimonial.classList.remove('sliding-out');
+            
+            // Animate next testimonial in
+            nextTestimonial.classList.add('sliding-in');
+            setTimeout(() => {
+                nextTestimonial.classList.remove('sliding-in');
+            }, 500);
+        }, 500);
+    }, 4000); // Change testimonials every 4 seconds
+}
+
+// Start both animations when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    cycleProjects();
+    cycleTestimonials();
 });
-</script>
