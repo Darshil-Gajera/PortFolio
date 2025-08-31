@@ -1,19 +1,26 @@
- // Function to set the theme and update UI
- function setTheme(theme) {
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+
+<script>
+// ===================== THEME TOGGLER =====================
+function setTheme(theme) {
     document.body.setAttribute('data-bs-theme', theme);
     localStorage.setItem('theme', theme);
-    var switchThemeBtn = document.getElementById('switchTheme');
+
+    const switchThemeBtn = document.getElementById('switchTheme');
     if (switchThemeBtn) {
-        switchThemeBtn.innerHTML = theme === 'dark' ?  '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-stars-fill"></i>';
+        switchThemeBtn.innerHTML = theme === 'dark' 
+            ? '<i class="bi bi-sun-fill"></i>' 
+            : '<i class="bi bi-moon-stars-fill"></i>';
     }
-    //console.log(`Switched to ${theme} theme`);
 }
 
-var currentTheme = localStorage.getItem('theme') || 'dark';
+// Load saved theme or default to dark
+let currentTheme = localStorage.getItem('theme') || 'dark';
 setTheme(currentTheme);
 
-// Event listener for the switch theme button
-var switchThemeBtn = document.getElementById('switchTheme');
+// Event listener for theme switcher
+const switchThemeBtn = document.getElementById('switchTheme');
 if (switchThemeBtn) {
     switchThemeBtn.addEventListener('click', () => {
         currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -21,84 +28,76 @@ if (switchThemeBtn) {
     });
 }
 
-//AOS Initiliaze
+// ===================== AOS INIT =====================
 AOS.init();
 
-// Fixed Header & back to top button on Scroll
+// ===================== FIXED HEADER & BACK TO TOP =====================
 window.addEventListener('scroll', () => {
-    // fixed header
     const header = document.getElementById('header');
-    if (window.scrollY > 30 && !header.classList.contains('fixed-top')) {
+    const backToTopButton = document.getElementById("backToTopButton");
+
+    if (window.scrollY > 30) {
         header.classList.add('fixed-top');
         document.getElementById('offcanvasNavbar').classList.add('fixedHeaderNavbar');
-    } else if (window.scrollY <= 30 && header.classList.contains('fixed-top')) {
+    } else {
         header.classList.remove('fixed-top');
         document.getElementById('offcanvasNavbar').classList.remove('fixedHeaderNavbar');
     }
 
-    //backtotop
-    const backToTopButton = document.getElementById("backToTopButton");
-    if (window.scrollY > 400 && backToTopButton.style.display === 'none') {
+    if (window.scrollY > 400) {
         backToTopButton.style.display = 'block';
-    } else if (window.scrollY <= 400 && backToTopButton.style.display === 'block') {
+    } else {
         backToTopButton.style.display = 'none';
     }
 });
 
-
-//jumping to top function
+// Back to top function
 function scrollToTop(){
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
 
-//Testimonial Slider
+// ===================== TESTIMONIAL SLIDER (Owl Carousel) =====================
 $(document).ready(function(){
     $("#testimonial-slider").owlCarousel({
         items:3,
         nav:true,
-        loop: true,
-        autoplay: true,
-        autoplayTimeout: 3000,
+        loop:true,
+        autoplay:true,
+        autoplayTimeout:3000,
         responsive:{
-            0:{
-                items:1,
-            },
-            768:{
-                items:2,
-            },
-            1170:{
-                items:3,
-            }
+            0:{ items:1 },
+            768:{ items:2 },
+            1170:{ items:3 }
         }
     });
 });
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+</script>
+
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
 <script>
-  var swiper = new Swiper(".myProjects", {
-    slidesPerView: 3,   // show 3 cards at a time
+// ===================== PROJECT SLIDER (Swiper.js) =====================
+var swiper = new Swiper(".myProjects", {
+    slidesPerView: 3,
     spaceBetween: 30,
     loop: true,
     autoplay: {
-      delay: 3000, // slide every 3s
-      disableOnInteraction: false,
+        delay: 3000,
+        disableOnInteraction: false,
     },
     pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
+        el: ".swiper-pagination",
+        clickable: true,
     },
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
     },
     breakpoints: {
-      0: { slidesPerView: 1 },   
-      768: { slidesPerView: 2 }, 
-      1024: { slidesPerView: 3 } 
+        0: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 }
     }
-  });
+});
 </script>
