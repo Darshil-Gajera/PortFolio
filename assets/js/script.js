@@ -73,3 +73,32 @@ $(document).ready(function(){
         }
     });
 });
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+  var swiper = new Swiper(".myProjects", {
+    slidesPerView: 3,   // show 3 cards at a time
+    spaceBetween: 30,
+    loop: true,
+    autoplay: {
+      delay: 3000, // slide every 3s
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      0: { slidesPerView: 1 },   
+      768: { slidesPerView: 2 }, 
+      1024: { slidesPerView: 3 } 
+    }
+  });
+</script>
