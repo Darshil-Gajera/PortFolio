@@ -686,6 +686,15 @@ a:hover{
 /*--------------------------------------------------------------
 # Timeline Section
 --------------------------------------------------------------*/
+.project-card {
+  animation: floatUpDown 4s ease-in-out infinite;
+}
+
+@keyframes floatUpDown {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
 
 #timelines{
     padding: 100px 0px 80px 0px;
